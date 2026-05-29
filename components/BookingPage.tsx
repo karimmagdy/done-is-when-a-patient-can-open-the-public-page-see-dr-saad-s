@@ -38,7 +38,11 @@ export default function BookingPage() {
           <div className="flex items-center gap-3 mb-8">
             {['Pick a slot', 'Your details', 'Confirmed'].map((label, i) => {
               const isActive = (step === 'calendar' && i === 0) || (step === 'form' && i === 1);
-              const isDone = (step === 'form' && i === 0) || (step === 'confirmed' && i < 2);
+              // This block only renders while step !== 'confirmed', so step is
+              // narrowed to 'calendar' | 'form' here — a step === 'confirmed'
+              // check is dead code and a TS "no overlap" error. On the form
+              // step, the first indicator ("Pick a slot") is the done one.
+              const isDone = step === 'form' && i === 0;
               return (
                 <>
                   <div key={label} className={`flex items-center gap-2 text-sm font-medium ${
